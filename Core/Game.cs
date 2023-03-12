@@ -2,10 +2,22 @@
 
 public class Game
 {
+    public Action? RefreshUI { get; set; }
+
+    private ItemTimer InitializeTimer(ItemType itemType)
+    {
+        var timer = new ItemTimer(itemType);
+        timer.RaiseCooldownEvent+= (_, _) =>
+        {
+            RefreshUI?.Invoke();
+        }; 
+        return timer;
+    }
+    
     public Game()
     {
         ItemTimers =
-            new List<ItemTimer>(Data.Definitions().Select(itemType => new ItemTimer(itemType)));
+            new List<ItemTimer>(Data.Definitions().Select(InitializeTimer));
     }
 
     public Inventory Inventory { get; set; } = new();
