@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F24A83F1-AEFD-4925-9DB9-92ECB3409CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalGui", "..\TerminalGui\TerminalGui.csproj", "{123A7972-BD04-41DD-B0B4-FF5A800D084A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F24A83F1-AEFD-4925-9DB9-92ECB3409CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F24A83F1-AEFD-4925-9DB9-92ECB3409CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F24A83F1-AEFD-4925-9DB9-92ECB3409CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F24A83F1-AEFD-4925-9DB9-92ECB3409CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123A7972-BD04-41DD-B0B4-FF5A800D084A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123A7972-BD04-41DD-B0B4-FF5A800D084A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123A7972-BD04-41DD-B0B4-FF5A800D084A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123A7972-BD04-41DD-B0B4-FF5A800D084A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
