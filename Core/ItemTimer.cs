@@ -1,7 +1,7 @@
 ﻿using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace Core;
+namespace ClickerGame;
 
 public class Inventory : Dictionary<string, int>
 {

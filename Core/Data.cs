@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace ClickerGame;
 
 public static class Data
 {

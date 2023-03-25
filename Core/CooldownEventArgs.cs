@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace ClickerGame;
 
 public delegate void CooldownEventHandler(object? sender, CooldownEventArgs args);
 

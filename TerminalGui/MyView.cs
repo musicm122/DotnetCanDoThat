@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 using System.Reflection;
-using Core;
+using ClickerGame;
 
 namespace TerminalGui
 {
