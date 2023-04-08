@@ -43,7 +43,8 @@ public class ItemTimer
 
     public bool CanGenerateNewItem(Inventory inventory)
     {
-        return inventory.CanPayCost(Definition.Cost) && CooldownComplete;
+        var canPay = inventory.CanPayCost(Definition.Cost);
+		return canPay && CooldownComplete;
     }
 
     public void ResetTimer()

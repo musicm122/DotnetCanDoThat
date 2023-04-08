@@ -9,5 +9,5 @@ public class CooldownEventArgs : EventArgs
         SourceItem = item;
     }
 
-    private ItemType SourceItem { get; }
+    public ItemType SourceItem { get; }
 }

@@ -1,0 +1,87 @@
+﻿@using ClickerGame;
+@inject ClickerGame.Game GameService
+
+<hr>
+<ol>
+<li>Name: @Name</li>
+<li>Message: @Message </li>
+<li>CanClick: @CanClick </li>
+<li>Can Generate new Items @Timer.CanGenerateNewItem(this.Inventory)</li>
+</ol>
+
+<hr>
+
+<button 
+	id=@Timer.Definition.Name 
+	disabled=@CanClick
+	@onclick="@OnCounterClick" 
+	class="button">	
+	Get @Name
+</button>
+@code {
+
+	string GetMessage()
+	{
+		var message = string.Empty;
+		if (!Inventory.ContainsKey(Name) || Inventory[Name] <= 0) return $"You don't have any {Name}s";
+
+		if (Inventory[Name] == 1)
+			message += $"You have {Inventory[Name]} {Name}";
+		else
+			message += $"You have {Inventory[Name]} {Name}s ";
+
+		return message;
+	}
+	void Log(string msg)
+	{
+		Console.WriteLine(msg);
+	}
+
+	[Parameter]
+	public ItemTimer Timer {get;set;}
+	[Parameter]
+	public EventCallback<int> OnUpdate { get; set; }
+
+	public string Message { get => GetMessage(); }
+	public string Name { get => Timer.Definition.Name; }
+	//public int Count { get => this.Inventory[Timer.Definition.Name]; }
+	private Inventory Inventory { get => GameService.Inventory; }
+	private bool HasCooledDown { get; set; } = false;
+	private bool CanPayCost { get => Timer.CanGenerateNewItem(Inventory); }
+	private bool CanClick { get => this.HasCooledDown && CanPayCost; }
+	private void OnLoad()
+	{		
+		Log("Button OnLoad called");
+		this.HasCooledDown = false;
+		Timer.RaiseCooldownEvent += OnTimerCooldown;
+		Timer.ResetTimer();
+	}
+
+	void OnTimerCooldown(object? sender, CooldownEventArgs args)
+	{		
+		Log("Button should be enabled for " + args.SourceItem.Name);
+		this.HasCooledDown = true;
+	}
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		OnLoad();
+	}
+
+	private void OnCounterClick()
+	{
+		if (!Timer.CanGenerateNewItem(GameService.Inventory))
+		{
+			Log($"You don't have enough for a {Timer.Definition.Name}.");
+		}
+		else
+		{
+			GameService.Inventory.PayCost(Timer.Definition.Cost);
+			HasCooledDown = true;
+			GameService.AddItem(Timer.Definition.Name, 1);
+			Timer.ResetTimer();
+		}
+	}
+
+}

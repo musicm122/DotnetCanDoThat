@@ -1,0 +1,49 @@
+﻿@page "/game"
+@using Microsoft.AspNetCore.Components.Rendering
+@using ClickerGame
+@using MauiAppClickerGame.Components
+@inject ClickerGame.Game GameService
+@inject IJSRuntime JS
+@{
+	LoadGame(__builder);
+}
+	
+<h3>Clicker Game</h3>
+
+@code {
+
+	private Inventory Inventory { get => GameService.Inventory; }
+	private List<ItemTimer> Timers { get => GameService.ItemTimers; }
+
+	void Log(string msg)
+	{
+		Console.WriteLine(msg);	
+	}
+
+	protected override async void OnInitialized()
+	{
+		await JS.InvokeVoidAsync("console.log", "loaded");
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+	}
+
+	void LoadGame(RenderTreeBuilder __builder) 
+	{
+		@foreach (var item in Inventory)
+		{
+			<dir>
+				Key : @item.Key
+			</dir>
+			<dir>
+				Value : @item.Value
+			</dir>
+		}
+		@for (int i = 0; i <Timers.Count; i++)
+		{					
+			<MauiAppClickerGame.Components.Clicker Timer=@GameService.ItemTimers[i] />
+		}
+	}
+}
