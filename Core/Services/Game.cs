@@ -1,4 +1,6 @@
-﻿namespace ClickerGame;
+﻿using ClickerGame.Models;
+
+namespace ClickerGame.Services;
 
 public class Game
 {
@@ -7,13 +9,13 @@ public class Game
     private ItemTimer InitializeTimer(ItemType itemType)
     {
         var timer = new ItemTimer(itemType);
-        timer.RaiseCooldownEvent+= (_, _) =>
+        timer.RaiseCooldownEvent += (_, _) =>
         {
             RefreshUI?.Invoke();
-        }; 
+        };
         return timer;
     }
-    
+
     public Game()
     {
         ItemTimers =

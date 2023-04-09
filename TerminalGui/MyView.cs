@@ -8,11 +8,10 @@
 // -----------------------------------------------------------------------------
 
 using System.Reflection;
-using ClickerGame;
 
 namespace TerminalGui
 {
-    
+    using ClickerGame.Services;
     using Terminal.Gui;
 
     public partial class MyView

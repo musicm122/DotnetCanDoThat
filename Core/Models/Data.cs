@@ -1,4 +1,4 @@
-﻿namespace ClickerGame;
+﻿namespace ClickerGame.Models;
 
 public static class Data
 {

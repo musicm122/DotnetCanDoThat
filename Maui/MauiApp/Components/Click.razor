@@ -1,0 +1,60 @@
+﻿@using ClickerGame.ViewModels
+@implements IDisposable
+
+<div>
+	<ul>
+		<li>@Counter.UnitLabel : @Counter.CookieCount</li>
+		<li>Cooldown : @Counter.CurrentCookieCooldown</li>
+		<li>Max Cooldown : @Counter.MaxCookieCooldown</li>
+	</ul>
+
+	<button disabled="@(!Counter.CanClickCookie())" @onclick="()=> Increment()">
+		Get @Counter.UnitLabel
+	</button>
+
+</div>
+
+@code {
+	PeriodicTimer PeriodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+	protected override void OnInitialized()
+	{
+		RunTimer();  // fire-and-forget
+	}
+
+	async void RunTimer()
+	{
+		while (await PeriodicTimer.WaitForNextTickAsync())
+		{
+			await InvokeAsync(StateHasChanged);
+		}
+	}
+
+	public void Dispose()
+	{
+		PeriodicTimer?.Dispose();
+	}
+
+	[Parameter]
+	public CookieCounterViewModel Counter { get; set; }
+
+	void Increment()
+	{		
+		Counter.Increment();
+		InvokeAsync(StateHasChanged);
+	}
+
+	//public string Label { get; set; }
+
+	//[Parameter]
+	//public int Count { get; set; }
+
+	//[Parameter]
+	//public int CurrentCooldown{ get; set; }
+
+	//[Parameter]
+	//public bool CanClick { get; set; }
+
+	//[Parameter]
+	//public Action OnClick { get; set; } 
+}

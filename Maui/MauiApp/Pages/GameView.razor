@@ -1,0 +1,52 @@
+﻿@page "/GameView"
+@using MauiAppClickerGame.Components
+@using ClickerGame.ViewModels
+@inject GameViewModel ViewModel
+
+<h3>Cookie Clicker</h3>
+
+<div>
+	<button @onclick="()=>TogglePause()">
+		@if (ViewModel.IsRunning)
+		{
+			<p>Running</p>
+		}
+		else
+		{
+			<p>Paused</p>
+		}
+	</button>
+	<label>Time Elapsed:@ViewModel.TimeElapsed </label>	
+</div>
+<br />
+<div>
+	<Click Counter=@ViewModel.CookieCounter />
+</div>
+
+@code {
+
+	void RefreshUI(Object source, System.Timers.ElapsedEventArgs e)
+	{
+		InvokeAsync(StateHasChanged);
+	}
+
+	protected async override Task OnInitializedAsync()
+	{
+		ViewModel.IsRunning = true;
+
+		while (await ViewModel.GameTimer.WaitForNextTickAsync())
+		{			
+			if (ViewModel.IsRunning)
+			{
+				ViewModel.ProcessFrame();
+			}
+			await InvokeAsync(StateHasChanged);
+		}
+
+		await base.OnInitializedAsync();
+	}
+
+    private void TogglePause() => 
+		this.ViewModel.IsRunning = !this.ViewModel.IsRunning;
+
+}

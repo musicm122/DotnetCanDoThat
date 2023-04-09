@@ -1,4 +1,4 @@
-﻿namespace ClickerGame;
+﻿namespace ClickerGame.Models;
 
 public delegate void CooldownEventHandler(object? sender, CooldownEventArgs args);
 
