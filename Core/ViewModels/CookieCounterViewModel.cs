@@ -3,13 +3,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ClickerGame.ViewModels
 {
+
 	public class CookieCounterViewModel : ObservableObject
 	{
-		private int maxCookieCooldown = 1;
+		protected int maxCookieCooldown = 1;
+		protected string unitLabel = "Cookie";
+
 
 		public CookieCounterViewModel(int maxCooldown = 1)
 		{
-			this.maxCookieCooldown = maxCooldown;
+			maxCookieCooldown = maxCooldown;
 		}
 
 		public int MaxCookieCooldown
@@ -31,13 +34,12 @@ namespace ClickerGame.ViewModels
 			set => SetProperty(ref cookieCount, value);
 		}
 
-		private string unitLabel= "Cookie";
 		public string UnitLabel
 		{
 			get => unitLabel;
 			set => SetProperty(ref unitLabel, value);
 		}
-		public bool CanClickCookie() => 
+		public virtual bool CanClickCookie() => 
 			CurrentCookieCooldown <=0;
 
 		public void Increment()
