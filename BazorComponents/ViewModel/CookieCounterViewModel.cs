@@ -1,71 +1,32 @@
 ﻿using ClickerGame.ViewModels;
+using MvvmBlazor;
 
 namespace BlazorComponents.ViewModel
 {
-    public class CookieCounterViewModel : MvvmBlazor.ViewModel.ViewModelBase
+    public partial class CookieCounterViewModel : MvvmBlazor.ViewModel.ViewModelBase
     {
-        protected int maxCookieCooldown = 10;
-        protected string unitLabel = "Cookie";
-
-        public CookieCounterViewModel()
+        [Notify] private Guid _id;
+        [Notify] private int _maxCookieCooldown = 3;
+        [Notify] private string _unitLabel = "Cookie";
+        [Notify] private int _currentCookieCooldown;
+        [Notify] private int _cookieCount;
+        [Notify] private bool _disableClick;
+        
+        public void DecrementCooldown()
         {
-            _currentCookieCooldown = maxCookieCooldown;
-            //MaxCookieCooldown = 10;
-            //UnitLabel = unitLabel;
+            Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
+            DisableClick = CurrentCookieCooldown > 0;
+            if (!DisableClick) return;
+            CurrentCookieCooldown--;
+
         }
-
-        public int MaxCookieCooldown
-        {
-            get => maxCookieCooldown;
-            set => Set(ref maxCookieCooldown, value);
-        }
-
-        private int _currentCookieCooldown = 0;
-
-        public int CurrentCookieCooldown
-        {
-            get => _currentCookieCooldown;
-            set
-            {
-                Console.WriteLine($"CurrentCookieCooldown Setter called with value = {value}");
-                Set(ref _currentCookieCooldown, value);
-                DisableClick = _currentCookieCooldown == 0;
-                Console.WriteLine($"DisableClick set to {DisableClick}");
-
-            }
-        }
-
-        private int _cookieCount = 0;
-
-        public int CookieCount
-        {
-            get => _cookieCount;
-            set => Set(ref _cookieCount, value);
-        }
-
-        public string UnitLabel
-        {
-            get => unitLabel;
-            set => Set(ref unitLabel, value);
-        }
-
-        private bool _diableClick = false;
-
-        public bool DisableClick
-        {
-            get => _diableClick;
-            set => Set(ref _diableClick, value);
-        }
-
-
         public void Increment()
         {
             Console.WriteLine("Increment called");
+            DisableClick = true;
             CookieCount++;
-            this._currentCookieCooldown = MaxCookieCooldown;
-            this.CurrentCookieCooldown = MaxCookieCooldown;
-            Set(ref _currentCookieCooldown, MaxCookieCooldown);
-            
+            CurrentCookieCooldown = _maxCookieCooldown;
+            //_currentCookieCooldown = _maxCookieCooldown;
             Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
         }
     }

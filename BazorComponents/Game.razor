@@ -14,12 +14,12 @@
             <p>Paused</p>
         }
     </button>
-    <label>Time Elapsed:@Bind(vm => vm.TimeElapsed)</label>
+    <label>
+        Time Elapsed:
+            @Bind(vm => vm.TimeElapsed)
+    </label>
 </div>
 <br/>
 <div>
-    <Click
-        CurrentCookieCooldown="@BindingContext.CookieCounter.CurrentCookieCooldown"
-        MaxCookieCooldown="@BindingContext.CookieCounter.MaxCookieCooldown"
-        UnitLabel="@BindingContext.CookieCounter.UnitLabel"/>
+    <Click />
 </div>
