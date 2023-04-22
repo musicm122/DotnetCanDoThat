@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BlazorMvvm.Common\BlazorMvvm.Common.csproj" />
       <ProjectReference Include="..\Core\ClickerGame.csproj" />
     </ItemGroup>
 

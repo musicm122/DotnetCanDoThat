@@ -1,12 +1,18 @@
 using BlazorComponents.ViewModel;
 using BlazorClickerApp;
+using ClickerGame.Models;
+using ClickerGame.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 void RegisterVM(IServiceCollection serviceCollection)
 {
-    var gameVm = new GameViewModel();
+    var inventory = new Inventory();
+    var gameVm = new GameViewModel(inventory);
+    serviceCollection.AddSingleton(inventory);
     serviceCollection.AddSingleton(gameVm.CookieCounter);
+    //todo: update registration for hotdog
+    //serviceCollection.AddSingleton(gameVm.CookieCounter);
     serviceCollection.AddSingleton(gameVm);
 }
 
