@@ -1,26 +1,28 @@
 ﻿using System.ComponentModel;
+using ClickerGame.Constants;
+using ClickerGame.Interfaces;
 using ClickerGame.Services;
 using ClickerGame.ViewModels;
 using MvvmBlazor;
 
 namespace BlazorComponents.ViewModel
 {
-    public partial class GameViewModel : VMBase, IDisposable
+    public partial class GameViewModel : BlazorVMBase, IDisposable
     {
         private readonly PeriodicTimer _gameTimer = new(TimeSpan.FromSeconds(1));
 
-        [Notify] private Inventory _inventory = new();
+        [Notify] private IInventory _inventory = new Inventory();
 
         [Notify] private bool _isRunning;
         [Notify] private int _timeElapsed;
 
-        [Notify] public CounterViewModel _hotDogCounter;
-        [Notify] public CounterViewModel _cookieCounter;
+		[Notify] public IFieldCounter _hotDogCounter;
+        [Notify] public IFieldCounter _cookieCounter;
 
         public GameViewModel(Inventory inventory)
         {
-            _cookieCounter = new CounterViewModel(inventory, "Cookie");
-            _hotDogCounter = new CounterViewModel(inventory, "HotDog");
+            _cookieCounter = new CounterViewModel(inventory, ItemName.Cookie);
+            _hotDogCounter = new CounterViewModel(inventory, ItemName.HotDog);
         }
 
         public void TogglePause() => IsRunning = !IsRunning;

@@ -1,6 +1,16 @@
 ﻿@using BlazorComponents.ViewModel
 @using System.Diagnostics
+@using ClickerGame.Constants;
 @inherits MvvmComponentBase<CounterViewModel>
+
+@code {
+    public void CounterOnClick(MouseEventArgs args)
+    {
+        //vm => BindingContext.Increment(null)
+        this.BindingContext.Inventory.Increment(ItemName.Cookie);
+    }
+}
+
 <div>
     <h1>
         @BindingContext.UnitLabel
@@ -18,7 +28,7 @@
         </li>
     </ul>
 
-    <button disabled="@Bind(vm => vm.DisableClick)" @onclick="@(vm => BindingContext.Increment(null))">
+    <button disabled="@Bind(vm => vm.DisableClick)" @onclick="@CounterOnClick">
         Get @Bind(vm => vm.UnitLabel)
     </button>
 

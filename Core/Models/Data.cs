@@ -1,19 +1,25 @@
-﻿namespace ClickerGame.Models;
+﻿using ClickerGame.Constants;
+
+namespace ClickerGame.Models;
+
 
 public static class Data
 {
-    public static ItemType Cookie = new("Cookie", 3f, null);
-    public static ItemType HotDog = new("HotDog", 5f, new ItemCost("Cookie", 2));
+    
+    public static ItemType Cookie = new(ItemName.Cookie, 3f, null);
+    public static ItemType HotDog = new(ItemName.HotDog, 5f, new ItemCost(ItemName.Cookie, 2));
 
     public static ItemType[] Definitions()
     {
         return new[] { Cookie, HotDog };
     }
+    
+    public static bool HasDefinitions(string name) =>ItemDefinitions.ContainsKey(name);
 
-    public static Dictionary<string, ItemType> ItemDefinitions =
+    public static readonly Dictionary<string, ItemType> ItemDefinitions =
         new()
         {
-            { "HotDog", HotDog },
-            { "Cookie", Cookie }
+            { ItemName.HotDog, HotDog },
+            { ItemName.Cookie, Cookie }
         };
 }

@@ -86,7 +86,7 @@ namespace TerminalGui
         {
             InitializeComponent();
             Game = new Game();
-            this.Game.RefreshUI += RefreshUI;
+            this.Game.RefreshUi += RefreshUI;
             
             for(int i=0;i<Game.ItemTimers.Count;i++)
             {

@@ -27,12 +27,12 @@
     string GetMessage()
     {
         var message = string.Empty;
-        if (!Inventory.ContainsKey(Name) || Inventory[Name] <= 0) return $"You don't have any {Name}s";
+        if (!Inventory.ContainsName(Name) || Inventory.Amount(Name) <= 0) return $"You don't have any {Name}s";
 
-        if (Inventory[Name] == 1)
-            message += $"You have {Inventory[Name]} {Name}";
+        if (Inventory.Amount(Name) == 1)
+            message += $"You have {Inventory.Amount(Name)} {Name}";
         else
-            message += $"You have {Inventory[Name]} {Name}s ";
+            message += $"You have {Inventory.Amount(Name)} {Name}s ";
 
         return message;
     }
@@ -53,7 +53,7 @@
         get => GetMessage();
     }
 
-    public string Name
+    public string? Name
     {
         get => Timer.Definition.Name;
     }
