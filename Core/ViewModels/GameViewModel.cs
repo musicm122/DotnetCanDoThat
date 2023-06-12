@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ClickerGame.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -12,17 +13,34 @@ namespace ClickerGame.ViewModels
 
 	public class GameViewModel : ObservableObject
 	{
-		
-		public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(1));
+		public IInventory Inventory { get; private set; }
 
-		public GameViewModel() 
+		public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(1));
+        public ICommand ClickCookieCommand { get; }
+        public ICommand ClickHotdogCommand { get; }
+
+        public CookieCounterViewModel CookieCounter;
+
+        public HotDogCounterViewModel HotdogCounter;
+
+        public GameViewModel(IInventory inventory, CookieCounterViewModel cookieVM, HotDogCounterViewModel hotDogVm ) 
 		{
-			ClickCookieCommand = new RelayCommand(ClickCookie,CookieCounter.CanClickCookie);
+            Inventory = inventory;
+            CookieCounter = cookieVM;
+			HotdogCounter = hotDogVm;
+
+			ClickCookieCommand = new RelayCommand(CookieCounter.Increment, CookieCounter.CanClickCookie);
+			ClickHotdogCommand = new RelayCommand(HotdogCounter.Increment, HotdogCounter.CanClickCookie);
+        }
+
+        private string title = "Cookie Clicker";
+        public string Title
+		{
+			get => title;
+			set => SetProperty(ref title, value);
 		}
 
-		public CookieCounterViewModel CookieCounter = new(1);
-
-		private bool isRunning = false;
+        private bool isRunning = false;
 		public bool IsRunning
 		{
 			get => isRunning;
@@ -36,21 +54,14 @@ namespace ClickerGame.ViewModels
 			set => SetProperty(ref timeElapsed, value);
 		}
 
-
-		public ICommand ClickCookieCommand { get; }
-
-		private void ClickCookie()
-		{
-			CookieCounter.CookieCount++;
-		}
-
 		public void ProcessFrame()
 		{
-			if (CookieCounter.CurrentCookieCooldown > 0)
+			if (IsRunning)
 			{
-				CookieCounter.CurrentCookieCooldown--;
+				CookieCounter.DecrementCooldown();
+				HotdogCounter.DecrementCooldown();
+				TimeElapsed++;
 			}
-			TimeElapsed++;
 		}
 
 		public async Task RunGame()

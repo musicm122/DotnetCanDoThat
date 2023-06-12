@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerminalGui", "..\TerminalGui\TerminalGui.csproj", "{BB5CF947-3E20-4032-B8AC-5C2C457A98DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickerGame", "..\..\Core\ClickerGame.csproj", "{AE13DD6A-F093-4FDA-BF57-9FF8EBBC1782}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB5CF947-3E20-4032-B8AC-5C2C457A98DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5CF947-3E20-4032-B8AC-5C2C457A98DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5CF947-3E20-4032-B8AC-5C2C457A98DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5CF947-3E20-4032-B8AC-5C2C457A98DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE13DD6A-F093-4FDA-BF57-9FF8EBBC1782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE13DD6A-F093-4FDA-BF57-9FF8EBBC1782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE13DD6A-F093-4FDA-BF57-9FF8EBBC1782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE13DD6A-F093-4FDA-BF57-9FF8EBBC1782}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

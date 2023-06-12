@@ -1,3 +1,3 @@
 ﻿namespace ClickerGame.Models;
 
-public record ItemType(string Name, float WaitTime, ItemCost? Cost);
+public record ItemType(string Name, int WaitTime, ItemCost? Cost);

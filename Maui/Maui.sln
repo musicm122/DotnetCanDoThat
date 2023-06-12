@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiBlazorAppClickerGame", "MauiApp\MauiBlazorAppClickerGame.csproj", "{8C1E2624-F828-415C-81E6-26A23B1F7ABB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMvvm.Common", "MauiMvvm.Common\MauiMvvm.Common.csproj", "{FCEDE6E1-7298-4300-B50C-0B405069C528}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiNativeClickerApp", "MauiNative\MauiNativeClickerApp\MauiNativeClickerApp.csproj", "{6A3DC06F-FDCB-4747-BFF8-10B58519EB3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickerGame", "..\Core\ClickerGame.csproj", "{9AD52239-2D2B-46DA-BF8F-ADE4D962A371}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C1E2624-F828-415C-81E6-26A23B1F7ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1E2624-F828-415C-81E6-26A23B1F7ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1E2624-F828-415C-81E6-26A23B1F7ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1E2624-F828-415C-81E6-26A23B1F7ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCEDE6E1-7298-4300-B50C-0B405069C528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCEDE6E1-7298-4300-B50C-0B405069C528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCEDE6E1-7298-4300-B50C-0B405069C528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCEDE6E1-7298-4300-B50C-0B405069C528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3DC06F-FDCB-4747-BFF8-10B58519EB3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3DC06F-FDCB-4747-BFF8-10B58519EB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3DC06F-FDCB-4747-BFF8-10B58519EB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3DC06F-FDCB-4747-BFF8-10B58519EB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AD52239-2D2B-46DA-BF8F-ADE4D962A371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD52239-2D2B-46DA-BF8F-ADE4D962A371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD52239-2D2B-46DA-BF8F-ADE4D962A371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD52239-2D2B-46DA-BF8F-ADE4D962A371}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

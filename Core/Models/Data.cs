@@ -6,8 +6,8 @@ namespace ClickerGame.Models;
 public static class Data
 {
     
-    public static ItemType Cookie = new(ItemName.Cookie, 3f, null);
-    public static ItemType HotDog = new(ItemName.HotDog, 5f, new ItemCost(ItemName.Cookie, 2));
+    public static ItemType Cookie = new(ItemName.Cookie, 3, null);
+    public static ItemType HotDog = new(ItemName.HotDog, 5, new ItemCost(ItemName.Cookie, 2));
 
     public static ItemType[] Definitions()
     {

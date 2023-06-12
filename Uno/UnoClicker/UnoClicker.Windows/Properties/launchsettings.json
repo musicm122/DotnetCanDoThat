@@ -1,0 +1,10 @@
+{
+  "profiles": {
+	"UnoClicker.Windows (Package)": {
+	  "commandName": "MsixPackage"
+	},
+	"UnoClicker.Windows (Unpackaged)": {
+	  "commandName": "Project"
+	}
+  }
+}

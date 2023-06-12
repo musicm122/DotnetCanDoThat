@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "UnoClicker",
+  "display": "standalone",
+  "name": "UnoClicker",
+  "short_name": "UnoClicker",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
