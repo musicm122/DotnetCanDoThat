@@ -9,6 +9,7 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- Bundles the WinAppSDK binaries (Uncomment for unpackaged builds) -->
@@ -27,7 +28,7 @@
 		<PackageReference Include="Uno.WinUI" Version="4.8.33" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
 		<PackageReference Include="Uno.Extensions.Configuration" Version="2.3.11" />
 		<PackageReference Include="Uno.Extensions.Http" Version="2.3.11" />
 		<PackageReference Include="Uno.Extensions.Http.Refit" Version="2.3.11" />

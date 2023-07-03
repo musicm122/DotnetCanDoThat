@@ -27,6 +27,10 @@
 			<Button Content="Go to Second Page"
 					not_skia:AutomationProperties.AutomationId="SecondPageButton"
 					Command="{Binding GoToSecond}" />
-		</StackPanel>
+            <Button Content="Go to Game Page"
+					not_skia:AutomationProperties.AutomationId="GamePageButton"
+					Command="{Binding GoToGame}" />
+
+        </StackPanel>
 	</Grid>
 </Page>

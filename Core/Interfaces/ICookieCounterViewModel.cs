@@ -1,4 +1,4 @@
-﻿namespace ClickerGame.ViewModels
+﻿namespace ClickerGame.Interfaces
 {
     public interface ICookieCounterViewModel
     {

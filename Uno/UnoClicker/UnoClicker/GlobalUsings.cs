@@ -32,3 +32,5 @@ global using UnoClicker.Services.Endpoints;
 global using Windows.ApplicationModel;
 global using Application = Microsoft.UI.Xaml.Application;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
+global using ClickerGame.Constants;
+global using ClickerGame;

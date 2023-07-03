@@ -67,8 +67,8 @@ namespace ClickerGame.ViewModels
 
         public void DecrementCooldown()
         {
-            Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
             DisableClick = CurrentCookieCooldown > 0;
+            Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
             if (!DisableClick) return;
             CurrentCookieCooldown--;
         }

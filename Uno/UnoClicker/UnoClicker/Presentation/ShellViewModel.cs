@@ -1,3 +1,5 @@
+using ClickerGame.ViewModels;
+
 namespace UnoClicker.Presentation
 {
     public class ShellViewModel
