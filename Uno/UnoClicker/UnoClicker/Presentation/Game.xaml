@@ -9,44 +9,42 @@
     xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	xmlns:utu="using:Uno.Toolkit.UI"
 	xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	NavigationCacheMode="Required"
+	NavigationCacheMode="Enabled"
 	Background="{ThemeResource BackgroundBrush}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <TextBlock Text="{Binding Title}" />
-            <Button Command="{Binding ClickCookieCommand}" />
-            <CheckBox IsChecked="{Binding Path=IsRunning, Mode=TwoWay}" />
-
-            <StackPanel Orientation="Vertical">
-                
-                <TextBlock d:DataContext="Cookie" Text="{Binding CookieCounter.UnitLabel}" />
-                <TextBlock Text="{Binding CookieCounter.Count}" />
-                <Button Command="{Binding ClickCookieCommand}"  >
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Get" />
-                            <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding HotdogCounter.UnitLabel}" />
-                <TextBlock Text="{Binding HotdogCounter.Count}" />
-                <Button Command="{Binding ClickHotdogCommand}"  >
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Get" />
-                            <TextBlock Text="{Binding HotdogCounter.UnitLabel}" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+    <!-- <Grid> -->
+    <!--     <Grid.RowDefinitions> -->
+    <!--         <RowDefinition Height="Auto" /> -->
+    <!--         <RowDefinition /> -->
+    <!--     </Grid.RowDefinitions> -->
+    <!--     <StackPanel Grid.Row="1" Orientation="Vertical"> -->
+    <!--         <TextBlock> -->
+    <!--             {ViewModel.Title} -->
+    <!--         </TextBlock> -->
+    <!-- -->
+    <!--         <StackPanel Orientation="Vertical"> -->
+    <!--             <TextBlock Text="Cookies " /> -->
+    <!--             <TextBlock Text="{Binding ViewModel.CookieCounter.Count}" /> -->
+    <!--         </StackPanel> -->
+    <!-- -->
+    <!--         <Button Command="{Binding ViewModel.ClickCookieCommand}" > -->
+    <!--                 <Button.Content> -->
+    <!--                     <StackPanel Orientation="Horizontal"> -->
+    <!--                         <TextBlock Text="Get" /> -->
+    <!--                         <TextBlock Text="{Binding CookieCounter.UnitLabel}" /> -->
+    <!--                     </StackPanel> -->
+    <!--                 </Button.Content> -->
+    <!--             </Button> -->
+    <!--         </StackPanel> -->
+    <!--          -->
+    <!--         <StackPanel Orientation="Vertical"> -->
+    <!--             <TextBlock Text="Is Running" /> -->
+    <!--             <CheckBox> -->
+    <!--                 <CheckBox.IsChecked> -->
+    <!--                     <Binding Path="IsRunning" Mode="TwoWay" /> -->
+    <!--                 </CheckBox.IsChecked> -->
+    <!--             </CheckBox> -->
+    <!--         </StackPanel> -->
+    <!--      -->
+    <!-- </Grid> -->
 </Page>

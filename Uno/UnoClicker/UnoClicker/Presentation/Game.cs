@@ -1,6 +1,7 @@
 ﻿// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 using ClickerGame.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace UnoClicker.Presentation
 {
@@ -11,8 +12,9 @@ namespace UnoClicker.Presentation
     {
         public Game()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
             DataContext = App.Host?.Services.GetRequiredService<GameViewModel>();
         }
+        public GameViewModel ViewModel => (GameViewModel)DataContext;
     }
 }
