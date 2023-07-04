@@ -38,20 +38,42 @@ namespace ClickerGame.ViewModels
             set => SetProperty(ref hotdogCounter, value);
         }
 
+        bool CanClickCookie()
+        {
+            Console.WriteLine($"CanClickCookie = {CookieCounter.DisableClick}");
+            return CookieCounter.DisableClick;
+        }
+
         public GameViewModel(IInventory inventory)
         {
             Inventory = inventory;
+            CookieCounter.Inventory = Inventory;
+            HotdogCounter.Inventory = Inventory;
             ToggleIsRunningCommand = new RelayCommand(ToggleIsRunning);
-            ClickCookieCommand = new RelayCommand(CookieCounter.Increment, CookieCounter.CanClickCookie);
-            ClickHotdogCommand = new RelayCommand(HotdogCounter.Increment, HotdogCounter.CanClickCookie);
+
+            CookieCounter.PropertyChanged += CookieCounter_PropertyChanged;
+
+            ClickCookieCommand =
+                new RelayCommand(CookieCounter.Increment, CanClickCookie);
+
+            
+            ClickHotdogCommand =
+                new RelayCommand(HotdogCounter.Increment, () => HotdogCounter.DisableClick);
             Task.Run(RunGame).ConfigureAwait(false);
         }
+
+        private void CookieCounter_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Console.WriteLine( $"Property Changed: {e.PropertyName}");
+        }
+
 
         private string title = "Cookie Clicker";
         public string Title
         {
             get => title;
-            set => SetProperty(ref title, value);
+            set => 
+                SetProperty(ref title, value);
         }
 
         private bool isRunning = false;

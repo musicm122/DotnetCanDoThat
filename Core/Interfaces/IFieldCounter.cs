@@ -13,13 +13,13 @@ namespace ClickerGame.Interfaces
     {
         IInventory Inventory { get; set; }
 
-        int Count { get; set; }
+        int Count { get;set;}
 
         int CurrentCookieCooldown { get; set; }
         bool DisableClick { get; set; }
-        Guid Id { get; set; }
+        Guid Id { get;  }
         ItemType ItemType { get; set; }
 
-
-	}
+        bool CanPayCost(string typeName);
+    }
 }
