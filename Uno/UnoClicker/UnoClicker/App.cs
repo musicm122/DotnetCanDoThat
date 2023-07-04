@@ -45,19 +45,7 @@ namespace UnoClicker
                             .Section<AppConfig>()
                     )
                     // Enable localization (see appsettings.json for supported languages)
-                    .UseLocalization()
-                    // Register Json serializers (ISerializer and ISerializer)
-                    .UseSerialization((context, services) => services
-                        .AddContentSerializer(context)
-                        .AddJsonTypeInfo(WeatherForecastContext.Default.IImmutableListWeatherForecast))
-                    .UseHttp((context, services) => services
-                            // Register HttpClient
-#if DEBUG
-						// DelegatingHandler will be automatically injected into Refit Client
-						.AddTransient<DelegatingHandler, DebugHttpHandler>()
-#endif
-                        .AddSingleton<IWeatherCache, WeatherCache>()
-                        .AddRefitClient<IApiClient>(context))
+                    .UseLocalization()                    
                     .ConfigureServices((context, services) =>
                     {
                         services.AddSingleton<IInventory, Inventory>();
@@ -76,7 +64,7 @@ namespace UnoClicker
         {
             views.Register(
                 new ViewMap(ViewModel: typeof(ShellViewModel)),
-                new ViewMap<UnoClicker.Presentation.Game, GameViewModel>(),
+                //new ViewMap<UnoClicker.Presentation.Game, GameViewModel>(),
                 new ViewMap<MainPage, MainViewModel>(),
                 new DataViewMap<SecondPage, SecondViewModel, Entity>()
             );
@@ -85,7 +73,7 @@ namespace UnoClicker
                 new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
                     Nested: new RouteMap[]
                     {
-                    new RouteMap("Game", View: views.FindByViewModel<GameViewModel>()),
+                    //new RouteMap("Game", View: views.FindByViewModel<GameViewModel>()),
                     new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
                     new RouteMap("Second", View: views.FindByViewModel<SecondViewModel>()),
                     }

@@ -84,7 +84,6 @@
 	</Choose>
 	<ItemGroup>
 		<ProjectReference Include="..\UnoClicker\UnoClicker.csproj" />
-		<ProjectReference Include="..\UnoClicker.DataContracts\UnoClicker.DataContracts.csproj" />
 	</ItemGroup>
 	<Import Project="..\UnoClicker.Base\base.props" />
 </Project>
