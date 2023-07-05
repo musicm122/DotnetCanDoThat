@@ -36,29 +36,27 @@
                     </CheckBox>
                 </StackPanel>
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
-                <TextBlock Text=": " />
-                <TextBlock Text="{Binding CookieCounter.Count}" />
+            <StackPanel>
+                <Grid Height="150" Width="150" HorizontalAlignment="Stretch">
+                    <Border  VerticalAlignment="Bottom">
+                        <PersonPicture Height="300" Width="300" BadgeNumber="{Binding CookieCounter.Count}" ProfilePicture="https://www.svgrepo.com/download/30963/cookie.svg" DisplayName="Cookie" />
+                    </Border>
+                    <Button Margin="15" CornerRadius="15" Command="{Binding ClickCookieCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Blue" Foreground="White">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Get" />
+                                <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </Grid>
             </StackPanel>
-            
-            <Button Command="{Binding ClickCookieCommand}"  >
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Get" />
-                        <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-
-            <!--
+        </StackPanel>
+        <!--
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DumpContents = " />
                 <TextBlock Text="{Binding DumpContents}" />
             </StackPanel>
             -->
-
-        </StackPanel>
-	</Grid>
+    </Grid>
 </Page>
