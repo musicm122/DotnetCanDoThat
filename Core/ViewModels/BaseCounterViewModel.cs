@@ -23,12 +23,7 @@ namespace ClickerGame.ViewModels
             get => _currentCookieCooldown;
 
             set
-            {
-                if (_currentCookieCooldown != value)
-                {
-                    Console.WriteLine($"CurrentCookieCooldown changed to {value}");
-                }
-
+            {               
                 SetProperty(ref _currentCookieCooldown, value);
                 DisableClick = (_currentCookieCooldown > 0);
             }                
@@ -40,10 +35,6 @@ namespace ClickerGame.ViewModels
             get => _disableClick;
             set
             {
-                if (_disableClick != value)
-                {
-                    Console.WriteLine($"DisableClick changed to {value}");
-                }
                 SetProperty(ref _disableClick, value);
             }
         }
@@ -87,7 +78,6 @@ namespace ClickerGame.ViewModels
         {
             if (CurrentCookieCooldown > 0)
             {
-                //Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
                 CurrentCookieCooldown--;
                 DisableClick = CurrentCookieCooldown > 0;
             }
@@ -99,22 +89,16 @@ namespace ClickerGame.ViewModels
 
         public virtual void Increment(IFieldCounter? optionalVm = null)
         {
-            //Console.WriteLine("Increment called");
             DisableClick = true;
             Count++;
             CurrentCookieCooldown = MaxClickCooldown;
-            Console.WriteLine($"Count update to {Count}");
-            //Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
         }
 
         public virtual void Increment()
-        {
-            //Console.WriteLine("Increment called");
+        {   
             DisableClick = true;
             Count ++;
             CurrentCookieCooldown = MaxClickCooldown;
-            Console.WriteLine($"Count update to {Count}");
-            //Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
         }
 
 
