@@ -1,11 +1,12 @@
-﻿using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace ClickerGame.Interfaces
 {
     public interface IGameViewModel
     {
-        ICommand ClickCookieCommand { get; }
-        ICommand ClickHotdogCommand { get; }
+        RelayCommand ClickCookieCommand { get; }
+        RelayCommand ClickHotdogCommand { get; }
         IInventory Inventory { get; }
         bool IsRunning { get; set; }
         int TimeElapsed { get; set; }

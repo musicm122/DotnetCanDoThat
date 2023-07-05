@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,22 +12,38 @@ using Microsoft.Extensions.Localization;
 
 namespace ClickerGame.ViewModels
 {
+    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public class GameViewModel : ObservableObject, IGameViewModel
     {
         public IInventory Inventory { get; private set; }
 
         public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(1));
         public ICommand ToggleIsRunningCommand { get; }
-        public ICommand ClickCookieCommand { get; }
-        public ICommand ClickHotdogCommand { get; }
 
+        /// <summary>
+        /// Bindable Command for button used to add new ClickCookieCommand 
+        /// </summary>
+        /// <remarks>
+        /// Because RelayCommand has NotifyCanExecuteChanged I use it instead of ICommand
+        /// </remarks>
+        public RelayCommand ClickCookieCommand { get; }
+
+        /// <summary>
+        /// Bindable Command for button used to add new ClickHotdogCommand 
+        /// </summary>
+        /// <remarks>
+        /// Because RelayCommand has NotifyCanExecuteChanged I use it instead of ICommand
+        /// </remarks>
+
+        public RelayCommand ClickHotdogCommand { get; }
+
+       
         private CookieCounterViewModel cookieCounter = new();
 
-
-        public CookieCounterViewModel CookieCounter 
-        { 
-            get => cookieCounter; 
-            set => SetProperty(ref cookieCounter , value);
+        public CookieCounterViewModel CookieCounter
+        {
+            get => cookieCounter;
+            set => SetProperty(ref cookieCounter, value);
         }
 
         private HotDogCounterViewModel hotdogCounter = new();
@@ -40,8 +57,8 @@ namespace ClickerGame.ViewModels
 
         bool CanClickCookie()
         {
-            Console.WriteLine($"CanClickCookie = {CookieCounter.DisableClick}");
-            return CookieCounter.DisableClick;
+            Console.WriteLine($"CanClickCookie = {!CookieCounter.DisableClick}");
+            return !CookieCounter.DisableClick;
         }
 
         public GameViewModel(IInventory inventory)
@@ -49,30 +66,23 @@ namespace ClickerGame.ViewModels
             Inventory = inventory;
             CookieCounter.Inventory = Inventory;
             HotdogCounter.Inventory = Inventory;
+
             ToggleIsRunningCommand = new RelayCommand(ToggleIsRunning);
 
-            CookieCounter.PropertyChanged += CookieCounter_PropertyChanged;
-
-            ClickCookieCommand =
+            ClickCookieCommand = 
                 new RelayCommand(CookieCounter.Increment, CanClickCookie);
-
             
             ClickHotdogCommand =
                 new RelayCommand(HotdogCounter.Increment, () => HotdogCounter.DisableClick);
+
             Task.Run(RunGame).ConfigureAwait(false);
         }
-
-        private void CookieCounter_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Console.WriteLine( $"Property Changed: {e.PropertyName}");
-        }
-
 
         private string title = "Cookie Clicker";
         public string Title
         {
             get => title;
-            set => 
+            set =>
                 SetProperty(ref title, value);
         }
 
@@ -82,6 +92,7 @@ namespace ClickerGame.ViewModels
             get => isRunning;
             set => SetProperty(ref isRunning, value);
         }
+
 
         private int timeElapsed = 0;
         public int TimeElapsed
@@ -94,13 +105,16 @@ namespace ClickerGame.ViewModels
         {
             if (IsRunning)
             {
-                CookieCounter.DecrementCooldown();
+                CookieCounter.DecrementCooldown();                
+                ClickCookieCommand.NotifyCanExecuteChanged();
+
                 HotdogCounter.DecrementCooldown();
+                OnPropertyChanged(nameof(HotdogCounter));
                 TimeElapsed++;
             }
         }
 
-        public void ToggleIsRunning() 
+        public void ToggleIsRunning()
         {
             IsRunning = !IsRunning;
         }
@@ -108,12 +122,32 @@ namespace ClickerGame.ViewModels
         public async Task RunGame()
         {
             IsRunning = true;
-            //&& IsRunning
             while (await GameTimer.WaitForNextTickAsync() && IsRunning)
             {
                 ProcessFrame();
             }
         }
 
+        public string DumpContents
+        {
+            get => this.ToString();
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"Time Elapsed = {this.TimeElapsed}");
+            sb.AppendLine($"Is Running = {this.IsRunning}");
+
+            sb.AppendLine($"Inventory = {this.Inventory.DumpContents()}");
+            sb.AppendLine($"CookieCounter = {this.CookieCounter.DumpContents()}");
+            sb.AppendLine($"HotdogCounter = {this.HotdogCounter.DumpContents()}");
+            return sb.ToString();
+        }
+
+        private string GetDebuggerDisplay()
+        {
+            return ToString();
+        }
     }
 }

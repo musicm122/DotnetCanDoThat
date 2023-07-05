@@ -76,6 +76,13 @@ public class Inventory : IEnumerable<KeyValuePair<string, int>>, IInventory
         }
     }
 
+    public int SetAmount(string fieldName, int amount)
+    {
+        DataStore[fieldName] =amount;
+        return DataStore[fieldName];
+    }
+
+
     public int Increment(string fieldName)
     {
         DataStore[fieldName] += 1;

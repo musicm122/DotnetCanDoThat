@@ -14,13 +14,13 @@ namespace UnoClicker
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
 
-            Ioc.Default.ConfigureServices(
-                new ServiceCollection()
-                .AddSingleton<IInventory, Inventory>()
-                .AddTransient<CookieCounterViewModel>()
-                .AddTransient<HotDogCounterViewModel>()
-                .AddTransient<IGameViewModel, GameViewModel>()
-                .BuildServiceProvider());                
+            //Ioc.Default.ConfigureServices(
+            //    new ServiceCollection()
+            //    .AddSingleton<IInventory, Inventory>()
+            //    //.AddTransient<CookieCounterViewModel>()
+            //    //.AddTransient<HotDogCounterViewModel>()
+            //    .AddTransient<IGameViewModel, GameViewModel>()
+            //    .BuildServiceProvider());                
 
             var builder = this.CreateBuilder(args)
 
@@ -49,8 +49,8 @@ namespace UnoClicker
                     .ConfigureServices((context, services) =>
                     {
                         services.AddSingleton<IInventory, Inventory>();
-                        services.AddTransient<CookieCounterViewModel>();
-                        services.AddTransient<HotDogCounterViewModel>();
+                        //services.AddTransient<CookieCounterViewModel>();
+                        //services.AddTransient<HotDogCounterViewModel>();
                         services.AddTransient<IGameViewModel, GameViewModel>();
                     })
                     .UseNavigation(RegisterRoutes)
@@ -64,18 +64,13 @@ namespace UnoClicker
         {
             views.Register(
                 new ViewMap(ViewModel: typeof(ShellViewModel)),
-                //new ViewMap<UnoClicker.Presentation.Game, GameViewModel>(),
-                new ViewMap<MainPage, MainViewModel>(),
-                new DataViewMap<SecondPage, SecondViewModel, Entity>()
+                new ViewMap<MainPage, GameViewModel>()
             );
 
             routes.Register(
                 new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
-                    Nested: new RouteMap[]
-                    {
-                    //new RouteMap("Game", View: views.FindByViewModel<GameViewModel>()),
-                    new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
-                    new RouteMap("Second", View: views.FindByViewModel<SecondViewModel>()),
+                    Nested: new RouteMap[] {
+                        new RouteMap("Main", View: views.FindByViewModel<GameViewModel>()),
                     }
                 )
             );

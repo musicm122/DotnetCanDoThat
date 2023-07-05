@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System.Text;
+using System.Net;
 using ClickerGame.Interfaces;
 using ClickerGame.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
+using ClickerGame.Services;
 
 namespace ClickerGame.ViewModels
 {
@@ -65,7 +68,16 @@ namespace ClickerGame.ViewModels
         {
             get => ItemType.Name;
         }
-        public int Count { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public int Count 
+        {
+            get => 
+                Inventory.Amount(ItemType.Name);
+            set {
+                _ = Inventory.SetAmount(ItemType.Name, value);
+                OnPropertyChanged(nameof(Count));
+            }
+        }
 
         public bool CanPayCost(string typeName) => Inventory.CanPayCostByItemName(typeName);
 
@@ -75,7 +87,7 @@ namespace ClickerGame.ViewModels
         {
             if (CurrentCookieCooldown > 0)
             {
-                Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
+                //Console.WriteLine($"DecrementCooldown called with current cooldown = {CurrentCookieCooldown} and disable click ={DisableClick}");
                 CurrentCookieCooldown--;
                 DisableClick = CurrentCookieCooldown > 0;
             }
@@ -87,24 +99,34 @@ namespace ClickerGame.ViewModels
 
         public virtual void Increment(IFieldCounter? optionalVm = null)
         {
-            Console.WriteLine("Increment called");
+            //Console.WriteLine("Increment called");
             DisableClick = true;
-            Inventory.Increment(ItemType.Name);
+            Count++;
             CurrentCookieCooldown = MaxClickCooldown;
-            Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
+            Console.WriteLine($"Count update to {Count}");
+            //Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
         }
 
         public virtual void Increment()
         {
-            Console.WriteLine("Increment called");
+            //Console.WriteLine("Increment called");
             DisableClick = true;
-            Inventory.Increment(ItemType.Name);
+            Count ++;
             CurrentCookieCooldown = MaxClickCooldown;
-            Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
-            OnPropertyChanged("DisableClick");
-            OnPropertyChanged("DisableClick");
-
+            Console.WriteLine($"Count update to {Count}");
+            //Console.WriteLine("currentCookieCooldown update to " + CurrentCookieCooldown);
         }
 
+
+        public string DumpContents()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"inventory = {_inventory.DumpContents()}");
+            sb.AppendLine($"currentCookieCooldown = {_currentCookieCooldown}");
+            sb.AppendLine($"disableClick = {_disableClick}");
+            sb.AppendLine($"id = {_id}");
+            sb.AppendLine($"itemType = {_itemType}");
+            return sb.ToString();
+        }
     }
 }

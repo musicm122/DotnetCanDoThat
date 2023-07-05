@@ -11,25 +11,53 @@
 	  NavigationCacheMode="Required"
 	  Background="{ThemeResource BackgroundBrush}">
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<utu:NavigationBar Content="{Binding Title}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-		<StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="1"
+                    Margin="20"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center">
-			<TextBox Text="{Binding Name, Mode=TwoWay}"
-					 PlaceholderText="Enter your name:"
-					 Margin="8" />
-			<Button Content="Go to Second Page"
-					not_skia:AutomationProperties.AutomationId="SecondPageButton"
-					Command="{Binding GoToSecond}" />
-     <!--        <Button Content="Go to Game Page" -->
-					<!-- not_skia:AutomationProperties.AutomationId="GamePageButton" -->
-					<!-- Command="{Binding GoToGame}" /> -->
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Time Elapsed:" />
+                    <TextBlock Text="{Binding TimeElapsed}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Is Running" />
+                    <CheckBox>
+                        <CheckBox.IsChecked>
+                            <Binding Path="IsRunning" Mode="TwoWay" />
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
+                <TextBlock Text=": " />
+                <TextBlock Text="{Binding CookieCounter.Count}" />
+            </StackPanel>
+            
+            <Button Command="{Binding ClickCookieCommand}"  >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Get" />
+                        <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <!--
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="DumpContents = " />
+                <TextBlock Text="{Binding DumpContents}" />
+            </StackPanel>
+            -->
 
         </StackPanel>
 	</Grid>
