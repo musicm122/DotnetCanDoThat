@@ -103,6 +103,17 @@ public class Inventory : IEnumerable<KeyValuePair<string, int>>, IInventory
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        foreach (var keyValuePair in DataStore)
+        {
+            yield return keyValuePair;
+        }
+    }
+
+    void IInventory.ResetDataStore()
+    {
+        foreach (var keyValuePair in DataStore)
+        {
+            DataStore[keyValuePair.Key] = 0;
+        }
     }
 }

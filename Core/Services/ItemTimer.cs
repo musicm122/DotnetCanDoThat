@@ -7,7 +7,7 @@ namespace ClickerGame.Services;
 
 public class ItemTimer : IItemTimer
 {
-	public ItemTimer(ItemType definition)
+    public ItemTimer(ItemType definition)
 	{
 		Definition = definition;
 		Timer = new Timer

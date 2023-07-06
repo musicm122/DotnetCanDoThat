@@ -14,5 +14,6 @@ namespace ClickerGame.Interfaces
 
         void ProcessFrame();
         Task RunGame();
+        void ResetGame();
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ClickerGame.Interfaces;
+using ClickerGame.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Localization;
@@ -55,20 +56,42 @@ namespace ClickerGame.ViewModels
             set => SetProperty(ref hotdogCounter, value);
         }
 
-        bool CanClickCookie()
-        {
-            return !CookieCounter.DisableClick;
-        }
 
         public GameViewModel(IInventory inventory)
         {
             Inventory = inventory;
             CookieCounter = new CookieCounterViewModel(inventory);
-            HotdogCounter = new HotDogCounterViewModel(inventory);          
-
+            HotdogCounter = new HotDogCounterViewModel(inventory);
+            CookieCounter.CountChangedEvent += Counter_CountChangedEvent;
+            HotdogCounter.CountChangedEvent += Counter_CountChangedEvent;
+            CookieCounter.ClickCommand = new RelayCommand(IncrementCookie, CanClickCookie);
+            HotdogCounter.ClickCommand = new RelayCommand(IncrementHotdog, CanClickHotdog);
             ToggleIsRunningCommand = new RelayCommand(ToggleIsRunning);
-            
             Task.Run(RunGame).ConfigureAwait(false);
+        }
+       
+        public void ResetGame() 
+        {
+            Inventory.ResetDataStore();
+            TimeElapsed = 0;
+            IsRunning = true;
+            CookieCounter.RefreshCount();
+            HotdogCounter.RefreshCount();
+            Task.Run(RunGame).ConfigureAwait(false);
+        }
+
+        private bool CanClickCookie() => CookieCounter.CanClickCookie();
+        private void IncrementCookie()
+        {
+            CookieCounter.Increment();
+        }
+
+        private bool CanClickHotdog() => HotdogCounter.CanClickHotdog();        
+        private void IncrementHotdog()
+        {
+            HotdogCounter.Increment();
+            CookieCounter.RefreshCount();
+            HotdogCounter.RefreshCount();
         }
 
         private string title = "Cookie Clicker";
@@ -154,6 +177,37 @@ namespace ClickerGame.ViewModels
         private string GetDebuggerDisplay()
         {
             return ToString();
+        }
+
+        public bool DoesMeetWinCondition() =>
+            HotdogCounter.Count > 3 && CookieCounter.Count > 3;
+
+        public event Action<string,int>? CountChangedEvent;
+
+        public void RaiseCountChangedEvent(string label, int amount)
+        {
+            CountChangedEvent?.Invoke(label, amount);
+        }
+
+        public event Action<string>? GameOverEvent;
+
+
+        public void RaiseGameOverEvent()
+        {
+            GameOverEvent?.Invoke($"You have {HotdogCounter.Count} Hot Dogs and {CookieCounter.Count} Cookies! You Win!!!");
+        }
+
+        private void Counter_CountChangedEvent(string arg1, int arg2)
+        {
+            Console.WriteLine("Counter_CountChangedEvent Called");
+            CookieCounter.RefreshCount();
+            HotdogCounter.RefreshCount();
+            if (DoesMeetWinCondition())
+            {
+                IsRunning = false;
+                Console.WriteLine("Game Over");
+                RaiseGameOverEvent();
+            }
         }
     }
 }

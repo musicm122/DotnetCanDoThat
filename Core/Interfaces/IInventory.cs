@@ -17,6 +17,7 @@ public interface IInventory
 
     int Amount(string fieldName);
     int Count { get; }
+    void ResetDataStore();
 
     IEnumerator<KeyValuePair<string, int>> GetEnumerator();
     string DumpContents() 

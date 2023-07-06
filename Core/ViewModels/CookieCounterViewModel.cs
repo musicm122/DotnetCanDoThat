@@ -17,6 +17,6 @@ namespace ClickerGame.ViewModels
             this.ItemType = Data.Cookie;
             this.ClickCommand = new RelayCommand(Increment, CanClickCookie);
         }
-        bool CanClickCookie() => !DisableClick;        
+        public bool CanClickCookie() => !DisableClick;
     }
 }

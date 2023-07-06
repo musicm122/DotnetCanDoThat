@@ -8,6 +8,13 @@ namespace UnoClicker.Presentation.Controls
 {
     public sealed partial class CookieClicker : UserControl
     {
+        public event Action<int,string>? CountChangedEvent;
+        
+        public void RaiseCountChangedEvent()
+        {
+            Console.WriteLine($"You have {Count} {UnitLabel}(s)!");
+            CountChangedEvent?.Invoke(Count,UnitLabel);
+        }
 
         public CookieClicker()
         {
@@ -35,7 +42,11 @@ namespace UnoClicker.Presentation.Controls
         public int Count
         {
             get => (int)GetValue(CountProperty);
-            set => SetValue(CountProperty, value);
+            set
+            {
+                RaiseCountChangedEvent();
+                SetValue(CountProperty, value);
+            }
         }
 
         //Using a DependencyProperty as the backing store for MyProperty.This enables animation, styling, binding, etc...

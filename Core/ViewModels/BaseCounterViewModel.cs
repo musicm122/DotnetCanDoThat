@@ -11,6 +11,13 @@ namespace ClickerGame.ViewModels
 {
     public abstract class BaseCounterViewModel : ObservableObject, IFieldCounter
     {
+        public event Action<string, int>? CountChangedEvent;
+
+        public void RaiseCountChangedEvent(string label, int amount)
+        {
+            CountChangedEvent?.Invoke(label, amount);
+        }
+
         private string _imageSource = "";
 
         /// <summary>
@@ -84,6 +91,7 @@ namespace ClickerGame.ViewModels
                 Inventory.Amount(ItemType.Name);
             set {
                 _ = Inventory.SetAmount(ItemType.Name, value);
+                RaiseCountChangedEvent(ItemType.Name, value);
                 OnPropertyChanged(nameof(Count));
             }
         }
@@ -130,6 +138,11 @@ namespace ClickerGame.ViewModels
             sb.AppendLine($"id = {_id}");
             sb.AppendLine($"itemType = {_itemType}");
             return sb.ToString();
+        }
+
+        public void RefreshCount() 
+        {
+            OnPropertyChanged(nameof(Count));
         }
     }
 }

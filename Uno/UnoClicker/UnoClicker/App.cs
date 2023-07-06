@@ -9,11 +9,9 @@ namespace UnoClicker
     {
         private static Window? _window;
         public static IHost? Host { get; private set; }
-
        
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-          
+        {          
             var builder = this.CreateBuilder(args)
 
                 // Add navigation support for toolkit controls such as TabBar and NavigationView
@@ -54,6 +52,7 @@ namespace UnoClicker
 
         private static void RegisterRoutes(IViewRegistry views, IRouteRegistry routes)
         {
+            
             views.Register(
                 new ViewMap(ViewModel: typeof(ShellViewModel)),
                 new ViewMap<MainPage, GameViewModel>()

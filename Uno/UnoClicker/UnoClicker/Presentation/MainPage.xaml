@@ -12,35 +12,33 @@
 	  NavigationCacheMode="Required"
 	  Background="{ThemeResource BackgroundBrush}">
 
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="10" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" /> <!--Title-->
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
+            <RowDefinition Height="10" /> <!--Clickers-->
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" /> <!--DataContext-->
             <RowDefinition Height="10" />
 
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="3" Orientation="Vertical">
+        <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Title}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{Binding Title}" />
+            </StackPanel>
+            <StackPanel 
+                Orientation="Horizontal" 
+                >
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Time Elapsed:" />
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding TimeElapsed}" />
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Time Elapsed:" />
-                <TextBlock Text="{Binding TimeElapsed}" />
-            </StackPanel>
-        </StackPanel>
-        
         <StackPanel Grid.Row="5"
-                    Margin="20"
                     Orientation="Horizontal"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center">
@@ -48,12 +46,10 @@
             <controls:CookieClicker x:Name="CookieClicker" DataContext="{Binding CookieCounter}" />
             <controls:CookieClicker x:Name="HotDogClicker" DataContext="{Binding HotdogCounter}" />
         </StackPanel>
-        
-        <StackPanel Grid.Row="7">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="DumpContents = " />
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal">
+                <TextBlock Text="DataContext = " />
                 <TextBlock Text="{Binding DumpContents}" />
-            </StackPanel>       
         </StackPanel>
     </Grid>
 </Page>

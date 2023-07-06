@@ -13,9 +13,20 @@ namespace ClickerGame.ViewModels
             Inventory = inventory;
             this.ItemType = Data.HotDog;
             this.ImageSource = @"https://www.svgrepo.com/download/475120/hotdog.svg";
-            this.ClickCommand = new RelayCommand(Increment, CanClickCookie);
+            this.ClickCommand = new RelayCommand(Increment, CanClickHotdog);
         }
-        bool CanClickCookie() => !DisableClick;
+        public bool CanClickHotdog()=>
+            !DisableClick && CanPayCost(this.ItemType.Name);
+        
+        public override void Increment()
+        {
+            if (CanClickHotdog())
+            {
+                PayCost(this.ItemType.Name);
+                base.Increment();
+            }
+        }
+
 
     }
 }

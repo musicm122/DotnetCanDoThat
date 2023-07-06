@@ -15,7 +15,7 @@ namespace UnoClicker.Presentation
 
         public async Task Start()
         {
-            await Navigator.NavigateViewModelAsync<MainViewModel>(this);
+            await Navigator.NavigateViewModelAsync<GameViewModel>(this);
         }
     }
 }
