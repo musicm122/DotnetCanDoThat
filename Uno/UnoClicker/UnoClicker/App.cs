@@ -13,15 +13,7 @@ namespace UnoClicker
        
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
-
-            //Ioc.Default.ConfigureServices(
-            //    new ServiceCollection()
-            //    .AddSingleton<IInventory, Inventory>()
-            //    //.AddTransient<CookieCounterViewModel>()
-            //    //.AddTransient<HotDogCounterViewModel>()
-            //    .AddTransient<IGameViewModel, GameViewModel>()
-            //    .BuildServiceProvider());                
-
+          
             var builder = this.CreateBuilder(args)
 
                 // Add navigation support for toolkit controls such as TabBar and NavigationView
@@ -49,8 +41,8 @@ namespace UnoClicker
                     .ConfigureServices((context, services) =>
                     {
                         services.AddSingleton<IInventory, Inventory>();
-                        //services.AddTransient<CookieCounterViewModel>();
-                        //services.AddTransient<HotDogCounterViewModel>();
+                        services.AddTransient<CookieCounterViewModel>();
+                        services.AddTransient<HotDogCounterViewModel>();
                         services.AddTransient<IGameViewModel, GameViewModel>();
                     })
                     .UseNavigation(RegisterRoutes)
@@ -74,6 +66,6 @@ namespace UnoClicker
                     }
                 )
             );
-        }
+        }        
     }
 }

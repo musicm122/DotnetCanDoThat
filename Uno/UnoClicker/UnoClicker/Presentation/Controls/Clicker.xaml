@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="UnoClicker.Presentation.Controls.Clicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoClicker.Presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:uen="using:Uno.Extensions.Navigation.UI"
+    xmlns:utu="using:Uno.Toolkit.UI"
+    xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Background="{ThemeResource BackgroundBrush}"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <StackPanel
+            CornerRadius="10"
+            Margin="10"
+            Background="WhiteSmoke"
+            BorderThickness="1"
+            BorderBrush="Gray">
+            <Grid Height="150" Width="150" HorizontalAlignment="Stretch">
+                <Border  VerticalAlignment="Bottom">
+                    <PersonPicture
+                        Height="300"
+                        Width="300"
+                        BadgeNumber="{x:Bind ViewModel.Count}"
+                        ProfilePicture="{x:Bind ViewModel.ImageSource}"
+                        DisplayName="{x:Bind ViewModel.UnitLabel}" />
+                </Border>
+                <Button
+                    Margin="15"
+                    CornerRadius="20"
+                    Command="{x:Bind ViewModel.ClickCommand}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Foreground="White"
+                    Background="Blue">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Get" Foreground="White" />
+                            <TextBlock Text="{x:Bind ViewModel.UnitLabel}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

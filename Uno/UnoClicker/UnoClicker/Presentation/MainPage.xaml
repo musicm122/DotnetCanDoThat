@@ -7,56 +7,53 @@
 	  mc:Ignorable="d"
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:controls="using:UnoClicker.Presentation.Controls"
 	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  NavigationCacheMode="Required"
 	  Background="{ThemeResource BackgroundBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1"
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Title}" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Time Elapsed:" />
+                <TextBlock Text="{Binding TimeElapsed}" />
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="5"
                     Margin="20"
+                    Orientation="Horizontal"
 					HorizontalAlignment="Center"
 					VerticalAlignment="Center">
 
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Time Elapsed:" />
-                    <TextBlock Text="{Binding TimeElapsed}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Is Running" />
-                    <CheckBox>
-                        <CheckBox.IsChecked>
-                            <Binding Path="IsRunning" Mode="TwoWay" />
-                        </CheckBox.IsChecked>
-                    </CheckBox>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel>
-                <Grid Height="150" Width="150" HorizontalAlignment="Stretch">
-                    <Border  VerticalAlignment="Bottom">
-                        <PersonPicture Height="300" Width="300" BadgeNumber="{Binding CookieCounter.Count}" ProfilePicture="https://www.svgrepo.com/download/30963/cookie.svg" DisplayName="Cookie" />
-                    </Border>
-                    <Button Margin="15" CornerRadius="15" Command="{Binding ClickCookieCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Blue" Foreground="White">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Get" />
-                                <TextBlock Text="{Binding CookieCounter.UnitLabel}" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </Grid>
-            </StackPanel>
+            <controls:CookieClicker x:Name="CookieClicker" DataContext="{Binding CookieCounter}" />
+            <controls:CookieClicker x:Name="HotDogClicker" DataContext="{Binding HotdogCounter}" />
         </StackPanel>
-        <!--
+        
+        <StackPanel Grid.Row="7">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DumpContents = " />
                 <TextBlock Text="{Binding DumpContents}" />
-            </StackPanel>
-            -->
+            </StackPanel>       
+        </StackPanel>
     </Grid>
 </Page>

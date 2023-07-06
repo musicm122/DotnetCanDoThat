@@ -18,7 +18,7 @@ namespace ClickerGame.ViewModels
         public IInventory Inventory { get; private set; }
 
         public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(1));
-        public ICommand ToggleIsRunningCommand { get; }
+        public IRelayCommand ToggleIsRunningCommand { get; }
 
         /// <summary>
         /// Bindable Command for button used to add new ClickCookieCommand 
@@ -26,7 +26,7 @@ namespace ClickerGame.ViewModels
         /// <remarks>
         /// Because RelayCommand has NotifyCanExecuteChanged I use it instead of ICommand
         /// </remarks>
-        public RelayCommand ClickCookieCommand { get; }
+        public IRelayCommand ClickCookieCommand { get => CookieCounter.ClickCommand; }
 
         /// <summary>
         /// Bindable Command for button used to add new ClickHotdogCommand 
@@ -35,10 +35,10 @@ namespace ClickerGame.ViewModels
         /// Because RelayCommand has NotifyCanExecuteChanged I use it instead of ICommand
         /// </remarks>
 
-        public RelayCommand ClickHotdogCommand { get; }
+        public IRelayCommand ClickHotdogCommand { get; }
 
        
-        private CookieCounterViewModel cookieCounter = new();
+        private CookieCounterViewModel cookieCounter;
 
         public CookieCounterViewModel CookieCounter
         {
@@ -46,7 +46,7 @@ namespace ClickerGame.ViewModels
             set => SetProperty(ref cookieCounter, value);
         }
 
-        private HotDogCounterViewModel hotdogCounter = new();
+        private HotDogCounterViewModel hotdogCounter;
 
 
         public HotDogCounterViewModel HotdogCounter
@@ -57,24 +57,17 @@ namespace ClickerGame.ViewModels
 
         bool CanClickCookie()
         {
-            Console.WriteLine($"CanClickCookie = {!CookieCounter.DisableClick}");
             return !CookieCounter.DisableClick;
         }
 
         public GameViewModel(IInventory inventory)
         {
             Inventory = inventory;
-            CookieCounter.Inventory = Inventory;
-            HotdogCounter.Inventory = Inventory;
+            CookieCounter = new CookieCounterViewModel(inventory);
+            HotdogCounter = new HotDogCounterViewModel(inventory);          
 
             ToggleIsRunningCommand = new RelayCommand(ToggleIsRunning);
-
-            ClickCookieCommand = 
-                new RelayCommand(CookieCounter.Increment, CanClickCookie);
             
-            ClickHotdogCommand =
-                new RelayCommand(HotdogCounter.Increment, () => HotdogCounter.DisableClick);
-
             Task.Run(RunGame).ConfigureAwait(false);
         }
 
@@ -82,34 +75,44 @@ namespace ClickerGame.ViewModels
         public string Title
         {
             get => title;
-            set =>
+            set
+            {
+                OnPropertyChanged(nameof(DumpContents));
                 SetProperty(ref title, value);
+            }
         }
 
         private bool isRunning = false;
         public bool IsRunning
         {
             get => isRunning;
-            set => SetProperty(ref isRunning, value);
-        }
+            set
+            {
+                OnPropertyChanged(nameof(TimeElapsed));
+                OnPropertyChanged(nameof(DumpContents));
 
+                SetProperty(ref isRunning, value);
+            }
+        }
 
         private int timeElapsed = 0;
         public int TimeElapsed
         {
             get => timeElapsed;
-            set => SetProperty(ref timeElapsed, value);
+            set
+            {
+                OnPropertyChanged(nameof(IsRunning));
+                OnPropertyChanged(nameof(DumpContents));               
+                SetProperty(ref timeElapsed, value);
+            }
         }
 
         public void ProcessFrame()
         {
+            CookieCounter.ProcessFrame(isRunning);
+            HotdogCounter.ProcessFrame(isRunning);
             if (IsRunning)
             {
-                CookieCounter.DecrementCooldown();                
-                ClickCookieCommand.NotifyCanExecuteChanged();
-
-                HotdogCounter.DecrementCooldown();
-                OnPropertyChanged(nameof(HotdogCounter));
                 TimeElapsed++;
             }
         }
@@ -122,10 +125,13 @@ namespace ClickerGame.ViewModels
         public async Task RunGame()
         {
             IsRunning = true;
-            while (await GameTimer.WaitForNextTickAsync() && IsRunning)
+            while (IsRunning)
             {
+                await GameTimer.WaitForNextTickAsync();
                 ProcessFrame();
             }
+
+            OnPropertyChanged(nameof(DumpContents));
         }
 
         public string DumpContents

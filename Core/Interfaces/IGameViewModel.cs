@@ -5,8 +5,8 @@ namespace ClickerGame.Interfaces
 {
     public interface IGameViewModel
     {
-        RelayCommand ClickCookieCommand { get; }
-        RelayCommand ClickHotdogCommand { get; }
+        IRelayCommand ClickCookieCommand { get; }
+        IRelayCommand ClickHotdogCommand { get; }
         IInventory Inventory { get; }
         bool IsRunning { get; set; }
         int TimeElapsed { get; set; }

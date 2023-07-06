@@ -5,11 +5,29 @@ using ClickerGame.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel;
 using ClickerGame.Services;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ClickerGame.ViewModels
 {
     public abstract class BaseCounterViewModel : ObservableObject, IFieldCounter
     {
+        private string _imageSource = "";
+
+        /// <summary>
+        /// Source SVG file for Couter Image
+        /// </summary>
+        /// <remarks>
+        /// Expects source to be svg
+        /// </remarks>
+        public string ImageSource 
+        { 
+            get => _imageSource;
+            set => SetProperty(ref _imageSource, value);
+        }
+
+        public IRelayCommand ClickCommand { get; set; } 
+
+
         private IInventory _inventory;
         public IInventory Inventory
         {
@@ -38,7 +56,7 @@ namespace ClickerGame.ViewModels
                 SetProperty(ref _disableClick, value);
             }
         }
-        private Guid _id = new(Guid.NewGuid().ToString());
+        private readonly Guid _id = new(Guid.NewGuid().ToString());
         public Guid Id { 
             get => _id;
         }
@@ -87,13 +105,6 @@ namespace ClickerGame.ViewModels
             }
         }
 
-        public virtual void Increment(IFieldCounter? optionalVm = null)
-        {
-            DisableClick = true;
-            Count++;
-            CurrentCookieCooldown = MaxClickCooldown;
-        }
-
         public virtual void Increment()
         {   
             DisableClick = true;
@@ -101,6 +112,14 @@ namespace ClickerGame.ViewModels
             CurrentCookieCooldown = MaxClickCooldown;
         }
 
+        public void ProcessFrame(bool isActive)
+        {
+            if (isActive)
+            {
+                DecrementCooldown();
+            }
+            ClickCommand?.NotifyCanExecuteChanged();
+        }
 
         public string DumpContents()
         {

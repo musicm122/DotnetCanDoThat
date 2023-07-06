@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) or '$(EnableWindowsTargeting)' == 'true'">$(TargetFrameworks);net7.0-windows10.0.19041</TargetFrameworks>
 		<TargetFrameworks>$(TargetFrameworks);net7.0;net7.0-ios;net7.0-android;net7.0-maccatalyst</TargetFrameworks>
@@ -71,10 +71,41 @@
 
 	<ItemGroup>
 		<UnoDspImportColors Include="Styles\*.zip" Generator="Xaml" />
-		<UnoImage Include="Assets\**\*.svg" />
+		<UnoImage Include="Assets\Icons\*" />
 		<EmbeddedResource Include="appsettings.json" />
 		<EmbeddedResource Include="appsettings.*.json" DependentUpon="appsettings.json" />
 		<UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Presentation\Controls\Clicker.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Presentation\Controls\Clicker.xaml" />
+	  <None Remove="Presentation\Controls\CookieClicker.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Remove="Presentation\Controls\Clicker.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Presentation\Controls\Clicker.xaml" />
+	  <UpToDateCheckInput Remove="Presentation\Controls\CookieClicker.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Presentation\Controls\CookieClicker.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UnoImage Update="Assets\Icons\cookie.svg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </UnoImage>
 	</ItemGroup>
 
 <!--	<ItemGroup>-->
