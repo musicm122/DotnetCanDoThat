@@ -9,36 +9,38 @@ namespace UnoClicker.Presentation
     {
         private IInventory? Inventory { get; set; }
         private INavigator? Navigation { get; set; }
-        private UnoClicker.App CurrentApp { get; set; }
+        private App? CurrentApp { get; set; }
+        public GameViewModel? ViewModel { get;set; }
 
         public MainPage()
         {
             Console.WriteLine("MainPage Constructor Called");
 
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
+
             CurrentApp = (App)Application.Current;
-            Navigation = CurrentApp.Get<INavigator>();
-            Inventory = CurrentApp.Get<IInventory>();
-            //ViewModel.GameOverEvent += ViewModel_GameOverEvent;
-        }
-
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            Console.WriteLine("OnNavigatedTo Called");
-            ViewModel.GameOverEvent += ViewModel_GameOverEvent;
-        }
-      
-        public GameViewModel ViewModel 
-        {
-            get
+            if (CurrentApp != null)
             {
-                //ViewModel.GameOverEvent += ViewModel_GameOverEvent;
-                return (GameViewModel)DataContext;
-            } 
+                Navigation = CurrentApp.Get<INavigator>();
+                Inventory = CurrentApp.Get<IInventory>();
+                if (Inventory != null)
+                {
+                    ViewModel = CurrentApp.Get<GameViewModel>() ?? new GameViewModel(Inventory);
+                    ViewModel.GameOverEvent += ViewModel_GameOverEvent;
+
+                }
+            }
         }
 
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.GameOverEvent += ViewModel_GameOverEvent;
+            }
+        }
+     
         public async Task ShowWinMessage(INavigator navigator)
         {
             var reset = "Reset";
@@ -56,7 +58,7 @@ namespace UnoClicker.Presentation
             if (result == reset)
             {
                 Console.WriteLine("Resetting Game.");
-                ViewModel.ResetGame();
+                ViewModel?.ResetGame();
             }
             else if (result == quit)
             {
@@ -67,15 +69,14 @@ namespace UnoClicker.Presentation
 
         private void ViewModel_GameOverEvent(string obj)
         {
-            var currentApp = (UnoClicker.App)Application.Current;
-            var navigator = currentApp?.Get<INavigator>();
-            if (navigator != null)
+            if (Navigation != null)
             {
                 Task.Run(async () =>
                 {
-                    await ShowWinMessage(navigator);
+                    await ShowWinMessage(Navigation);
                 });
-            }            
+            }
+                        
         }
     }
 }

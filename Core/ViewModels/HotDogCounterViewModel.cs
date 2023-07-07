@@ -8,12 +8,13 @@ namespace ClickerGame.ViewModels
 {
     public class HotDogCounterViewModel : BaseCounterViewModel
     {
+        public const string HotDogImageSource = @"https://www.svgrepo.com/download/475120/hotdog.svg";
         public HotDogCounterViewModel(IInventory inventory)
         {
             Inventory = inventory;
-            this.ItemType = Data.HotDog;
-            this.ImageSource = @"https://www.svgrepo.com/download/475120/hotdog.svg";
-            this.ClickCommand = new RelayCommand(Increment, CanClickHotdog);
+            ItemType = Data.HotDog;
+            ImageSource = HotDogImageSource;
+            ClickCommand = new RelayCommand(Increment, CanClickHotdog);
         }
         public bool CanClickHotdog()=>
             !DisableClick && CanPayCost(this.ItemType.Name);
@@ -26,7 +27,5 @@ namespace ClickerGame.ViewModels
                 base.Increment();
             }
         }
-
-
     }
 }

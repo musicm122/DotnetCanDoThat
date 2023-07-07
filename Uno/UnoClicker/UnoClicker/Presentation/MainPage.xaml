@@ -7,10 +7,15 @@
 	  mc:Ignorable="d"
 	  xmlns:uen="using:Uno.Extensions.Navigation.UI"
 	  xmlns:utu="using:Uno.Toolkit.UI"
+      xmlns:converters="using:UnoClicker.Presentation.Converters"
+
       xmlns:controls="using:UnoClicker.Presentation.Controls"
 	  xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  NavigationCacheMode="Required"
 	  Background="{ThemeResource BackgroundBrush}">
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -21,7 +26,7 @@
             <RowDefinition Height="10" /> <!--Clickers-->
             <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
-            <RowDefinition Height="20" /> <!--DataContext-->
+            <RowDefinition Height="Auto" /> <!--DataContext-->
             <RowDefinition Height="10" />
 
         </Grid.RowDefinitions>
@@ -36,6 +41,16 @@
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Time Elapsed:" />
                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding TimeElapsed}" />
             </StackPanel>
+            <StackPanel>
+                <Button x:Name="Reset" Command="{Binding ResetGameCommand}">
+                    Reset Game
+                </Button>
+            </StackPanel>
+            
+            <StackPanel Visibility= "{Binding GameOver, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Game Over" />
+            </StackPanel>
+            
         </StackPanel>
 
         <StackPanel Grid.Row="5"

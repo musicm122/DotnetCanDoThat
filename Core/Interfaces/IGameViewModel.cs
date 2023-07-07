@@ -11,7 +11,7 @@ namespace ClickerGame.Interfaces
         bool IsRunning { get; set; }
         int TimeElapsed { get; set; }
         string Title { get; set; }
-
+        bool GameOver { get; set; }
         void ProcessFrame();
         Task RunGame();
         void ResetGame();

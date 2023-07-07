@@ -13,13 +13,21 @@ using Microsoft.Extensions.Localization;
 
 namespace ClickerGame.ViewModels
 {
-    [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     public class GameViewModel : ObservableObject, IGameViewModel
     {
+        private bool gameOver = false;
+        public bool GameOver 
+        {
+            get => gameOver;
+            set => SetProperty(ref gameOver, value);
+        }
+
         public IInventory Inventory { get; private set; }
 
-        public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(1));
+        public readonly PeriodicTimer GameTimer = new(TimeSpan.FromSeconds(0.5));
         public IRelayCommand ToggleIsRunningCommand { get; }
+        public IRelayCommand ResetGameCommand { get; }
+
 
         /// <summary>
         /// Bindable Command for button used to add new ClickCookieCommand 
@@ -67,6 +75,7 @@ namespace ClickerGame.ViewModels
             CookieCounter.ClickCommand = new RelayCommand(IncrementCookie, CanClickCookie);
             HotdogCounter.ClickCommand = new RelayCommand(IncrementHotdog, CanClickHotdog);
             ToggleIsRunningCommand = new RelayCommand(ToggleIsRunning);
+            ResetGameCommand = new RelayCommand(ResetGame);
             Task.Run(RunGame).ConfigureAwait(false);
         }
        
@@ -75,8 +84,8 @@ namespace ClickerGame.ViewModels
             Inventory.ResetDataStore();
             TimeElapsed = 0;
             IsRunning = true;
-            CookieCounter.RefreshCount();
-            HotdogCounter.RefreshCount();
+            GameOver= false;
+            ViewModelPropertyChanged();
             Task.Run(RunGame).ConfigureAwait(false);
         }
 
@@ -100,8 +109,8 @@ namespace ClickerGame.ViewModels
             get => title;
             set
             {
-                OnPropertyChanged(nameof(DumpContents));
                 SetProperty(ref title, value);
+                ViewModelPropertyChanged();
             }
         }
 
@@ -111,10 +120,9 @@ namespace ClickerGame.ViewModels
             get => isRunning;
             set
             {
-                OnPropertyChanged(nameof(TimeElapsed));
-                OnPropertyChanged(nameof(DumpContents));
-
                 SetProperty(ref isRunning, value);
+                ViewModelPropertyChanged();
+
             }
         }
 
@@ -124,9 +132,8 @@ namespace ClickerGame.ViewModels
             get => timeElapsed;
             set
             {
-                OnPropertyChanged(nameof(IsRunning));
-                OnPropertyChanged(nameof(DumpContents));               
                 SetProperty(ref timeElapsed, value);
+                ViewModelPropertyChanged();
             }
         }
 
@@ -137,7 +144,9 @@ namespace ClickerGame.ViewModels
             if (IsRunning)
             {
                 TimeElapsed++;
+                CheckForWinConditions();
             }
+            ViewModelPropertyChanged();
         }
 
         public void ToggleIsRunning()
@@ -153,8 +162,6 @@ namespace ClickerGame.ViewModels
                 await GameTimer.WaitForNextTickAsync();
                 ProcessFrame();
             }
-
-            OnPropertyChanged(nameof(DumpContents));
         }
 
         public string DumpContents
@@ -162,22 +169,17 @@ namespace ClickerGame.ViewModels
             get => this.ToString();
         }
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine($"Time Elapsed = {this.TimeElapsed}");
-            sb.AppendLine($"Is Running = {this.IsRunning}");
+        public override string ToString() =>
+            new StringBuilder()
+            .AppendLine($"GameOver = {this.GameOver.ToString()}")
+            .AppendLine($"Is Running = {this.IsRunning}")
+            .AppendLine($"Time Elapsed = {this.TimeElapsed}")
+            .AppendLine($"Inventory = {this.Inventory.DumpContents()}")
+            .AppendLine($"CookieCounter = {this.CookieCounter.DumpContents()}")
+            .AppendLine($"HotdogCounter = {this.HotdogCounter.DumpContents()}")
+            .ToString();
+        
 
-            sb.AppendLine($"Inventory = {this.Inventory.DumpContents()}");
-            sb.AppendLine($"CookieCounter = {this.CookieCounter.DumpContents()}");
-            sb.AppendLine($"HotdogCounter = {this.HotdogCounter.DumpContents()}");
-            return sb.ToString();
-        }
-
-        private string GetDebuggerDisplay()
-        {
-            return ToString();
-        }
 
         public bool DoesMeetWinCondition() =>
             HotdogCounter.Count > 3 && CookieCounter.Count > 3;
@@ -187,6 +189,7 @@ namespace ClickerGame.ViewModels
         public void RaiseCountChangedEvent(string label, int amount)
         {
             CountChangedEvent?.Invoke(label, amount);
+            CheckForWinConditions();
         }
 
         public event Action<string>? GameOverEvent;
@@ -197,17 +200,32 @@ namespace ClickerGame.ViewModels
             GameOverEvent?.Invoke($"You have {HotdogCounter.Count} Hot Dogs and {CookieCounter.Count} Cookies! You Win!!!");
         }
 
+        void CheckForWinConditions() 
+        {
+            if (DoesMeetWinCondition())
+            {
+                RaiseGameOverEvent();
+
+                IsRunning = false;
+                GameOver = true;
+                Console.WriteLine("Game Over");
+            }
+        }
         private void Counter_CountChangedEvent(string arg1, int arg2)
         {
             Console.WriteLine("Counter_CountChangedEvent Called");
+            ViewModelPropertyChanged();
+            CheckForWinConditions();
+        }
+
+        void ViewModelPropertyChanged() 
+        {
+            OnPropertyChanged(nameof(IsRunning));
+            OnPropertyChanged(nameof(TimeElapsed));
+            OnPropertyChanged(nameof(DumpContents));
+            OnPropertyChanged(nameof(GameOver));
             CookieCounter.RefreshCount();
             HotdogCounter.RefreshCount();
-            if (DoesMeetWinCondition())
-            {
-                IsRunning = false;
-                Console.WriteLine("Game Over");
-                RaiseGameOverEvent();
-            }
         }
     }
 }
