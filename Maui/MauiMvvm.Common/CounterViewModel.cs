@@ -69,5 +69,7 @@ namespace MauiMvvm.Common
 			get => _disableClick;
 			set => SetProperty(ref _disableClick, value, "DisableClick");
 		}
-	}
+
+        public bool CanPayCost(string typeName)=> Inventory.CanPayCostByItemName(typeName);
+    }
 }

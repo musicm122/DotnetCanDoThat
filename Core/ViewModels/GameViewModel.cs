@@ -9,7 +9,6 @@ using ClickerGame.Interfaces;
 using ClickerGame.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Localization;
 
 namespace ClickerGame.ViewModels
 {

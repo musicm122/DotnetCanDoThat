@@ -1,41 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="using:MauiNativeClickerApp.Converters"
              x:Class="MauiNativeClickerApp.MainPage">
-
+    <ContentPage.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </ContentPage.Resources>
+    
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+        <Grid Margin="20"
+              Padding="30,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <!--Title-->
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <!--Clickers-->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="Auto" />
+                <!--DataContext-->
+                <RowDefinition Height="10" />
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+            </Grid.RowDefinitions>
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout Grid.Row="3" HorizontalOptions="Center" >
+                <Label HorizontalOptions="CenterAndExpand" Text="{Binding Title}" />
+                <HorizontalStackLayout>
+                    <Label Text="Time Elapsed:" />
+                    <Label Text="{Binding TimeElapsed}" />
+                </HorizontalStackLayout>
+                <Button x:Name="Reset" Command="{Binding ResetGameCommand}" Text="Reset Game" />
+                <Label IsVisible="{Binding GameOver}" Text="Game Over" />
+            </VerticalStackLayout>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+            <HorizontalStackLayout Grid.Row="5" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="Add Clickers Here"/>
+            </HorizontalStackLayout>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
+            <HorizontalStackLayout Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="DataContext = " />
+                <Label Text="{Binding DumpContents}" />
+            </HorizontalStackLayout>
+        </Grid>
     </ScrollView>
 
 </ContentPage>

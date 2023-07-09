@@ -3,9 +3,9 @@
 
 <div>
 	<ul>
-		<li>@Counter.UnitLabel : @Counter.CookieCount</li>
+		<li>@Counter.UnitLabel : @Counter.Count</li>
 		<li>Cooldown : @Counter.CurrentCookieCooldown</li>
-		<li>Max Cooldown : @Counter.MaxCookieCooldown</li>
+		<li>Max Cooldown : @Counter.MaxClickCooldown</li>
 	</ul>
 
 	<button disabled="@(!Counter.CanClickCookie())" @onclick="()=> Increment()">

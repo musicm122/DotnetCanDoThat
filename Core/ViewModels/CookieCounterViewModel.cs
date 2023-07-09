@@ -1,9 +1,6 @@
 ﻿using ClickerGame.Interfaces;
 using ClickerGame.Models;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Localization;
-using System.Net;
-using static System.Net.WebRequestMethods;
 
 namespace ClickerGame.ViewModels
 {

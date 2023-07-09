@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace UnoClicker.Presentation.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, string language) =>
-            (bool)value ^ (parameter as string ?? string.Empty).Equals("Reverse") ? Visibility.Visible : Visibility.Collapsed;
+        if ((value is bool && (bool)value))
+        {
+            return Visibility.Visible;
+        }
+        else
+        {
+            return Visibility.Collapsed;
+        }
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language) =>
-            (Visibility)value == Visibility.Visible ^ (parameter as string ?? string.Empty).Equals("Reverse");
-        
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is Visibility && (Visibility)value == Visibility.Visible;
     }
 }

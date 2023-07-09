@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using MauiAppClickerGame.Data;
 using ClickerGame.Services;
 using ClickerGame.ViewModels;
 
@@ -35,7 +34,7 @@ public static class MauiProgram
 #endif
 		builder.Services.AddSingleton<Game>();
 
-		builder.Services.AddSingleton<WeatherForecastService>();
+		//builder.Services.AddSingleton<WeatherForecastService>();
 
 		return builder.Build();
 	}
